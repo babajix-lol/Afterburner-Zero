@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://resources/EnemyData.gd" id="1_enemy_data"]
+[ext_resource type="PackedScene" path="res://projectiles/enemy_bullet.tscn" id="2_bullet"]
+[ext_resource type="PackedScene" path="res://pickups/weapon_crate.tscn" id="3_crate"]
+[ext_resource type="PackedScene" path="res://pickups/bomb.tscn" id="4_bomb"]
+[ext_resource type="PackedScene" path="res://pickups/heart.tscn" id="5_heart"]
+[ext_resource type="PackedScene" path="res://pickups/shield.tscn" id="6_shield"]
+
+[resource]
+script = ExtResource("1_enemy_data")
+max_health = 5
+move_pattern = &"hover"
+fire_pattern = &"carpet"
+fire_interval = 2.6
+bullet_scene = ExtResource("2_bullet")
+score_value = 500
+drop_table = [{
+"scene": ExtResource("3_crate"),
+"weight": 0.15
+}, {
+"scene": ExtResource("4_bomb"),
+"weight": 0.08
+}, {
+"scene": ExtResource("5_heart"),
+"weight": 0.08
+}, {
+"scene": ExtResource("6_shield"),
+"weight": 0.08
+}]

@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_player"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player_ship.png" id="2_ship_tex"]
+[ext_resource type="Script" path="res://player/shield_ring.gd" id="3_shield"]
+[ext_resource type="Script" path="res://player/player_weapon.gd" id="4_weapon"]
+[ext_resource type="PackedScene" path="res://projectiles/player_bullet.tscn" id="5_bullet_scene"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hurtbox"]
+radius = 9.0
+
+[node name="Player" type="CharacterBody2D"]
+position = Vector2(320, 180)
+motion_mode = 1
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1_player")
+
+[node name="EngineFlame" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 28)
+
+[node name="Ship" type="Sprite2D" parent="."]
+texture = ExtResource("2_ship_tex")
+
+[node name="ShieldRing" type="Node2D" parent="."]
+script = ExtResource("3_shield")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_hurtbox")
+
+[node name="Weapon" type="Node2D" parent="."]
+position = Vector2(0, -26)
+script = ExtResource("4_weapon")
+default_bullet_scene = ExtResource("5_bullet_scene")
