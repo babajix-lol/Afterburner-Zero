@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="WeaponData" load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://resources/WeaponData.gd" id="1_weapon_data"]
-[ext_resource type="PackedScene" path="res://projectiles/player_bullet.tscn" id="2_bullet"]
+[ext_resource type="PackedScene" path="res://projectiles/missile.tscn" id="2_missile"]
 
 [resource]
 script = ExtResource("1_weapon_data")
 display_name = "Homing Missile"
-bullet_scene = ExtResource("2_bullet")
+bullet_scene = ExtResource("2_missile")
 fire_rate = 2.5
 damage = 2
 projectile_count = 2

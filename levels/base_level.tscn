@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://levels/base_level.gd" id="1_base_level"]
+[ext_resource type="Script" path="res://levels/wave_manager.gd" id="2_wave_manager"]
+[ext_resource type="PackedScene" path="res://player/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://ui/hud.tscn" id="4_hud"]
+[ext_resource type="Script" path="res://levels/combo_tracker.gd" id="5_combo"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_base_level")
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Ground" type="TileMapLayer" parent="Background"]
+
+[node name="Props" type="TileMapLayer" parent="Background"]
+
+[node name="Entities" type="Node2D" parent="."]
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="SpawnTop" type="Marker2D" parent="SpawnPoints" groups=["spawn_top"]]
+position = Vector2(320, -40)
+gizmo_extents = 20.0
+
+[node name="SpawnLeft" type="Marker2D" parent="SpawnPoints" groups=["spawn_left"]]
+position = Vector2(-40, 100)
+gizmo_extents = 20.0
+
+[node name="SpawnRight" type="Marker2D" parent="SpawnPoints" groups=["spawn_right"]]
+position = Vector2(680, 100)
+gizmo_extents = 20.0
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(320, 300)
+
+[node name="BossArena" type="Marker2D" parent="."]
+position = Vector2(320, -1200)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(320, 180)
+
+[node name="WaveManager" type="Node" parent="."]
+script = ExtResource("2_wave_manager")
+
+[node name="ComboTracker" type="Node" parent="."]
+script = ExtResource("5_combo")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="HUDRoot" parent="HUD" instance=ExtResource("4_hud")]
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(320, 300)

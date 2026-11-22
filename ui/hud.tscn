@@ -1,0 +1,79 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://ui/hud.gd" id="1_hud"]
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_hud")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="TopBar" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+
+[node name="ScoreLabel" type="Label" parent="MarginContainer/TopBar"]
+layout_mode = 2
+text = "SCORE: 0"
+
+[node name="Spacer1" type="Control" parent="MarginContainer/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="LivesContainer" type="HBoxContainer" parent="MarginContainer/TopBar"]
+layout_mode = 2
+
+[node name="Spacer2" type="Control" parent="MarginContainer/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="BombLabel" type="Label" parent="MarginContainer/TopBar"]
+layout_mode = 2
+text = "BOMB: 1"
+
+[node name="Spacer3" type="Control" parent="MarginContainer/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="WeaponLabel" type="Label" parent="MarginContainer/TopBar"]
+layout_mode = 2
+text = "DEFAULT"
+
+[node name="Spacer4" type="Control" parent="MarginContainer/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="ComboLabel" type="Label" parent="MarginContainer/TopBar"]
+layout_mode = 2
+text = ""
+
+[node name="BottomBar" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+
+[node name="WaveLabel" type="Label" parent="MarginContainer/BottomBar"]
+layout_mode = 2
+text = ""

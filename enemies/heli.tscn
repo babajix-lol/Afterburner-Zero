@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://enemies/enemy_base.gd" id="1_enemy"]
+[ext_resource type="Texture2D" path="res://assets/sprites/heli.png" id="2_sprite"]
+[ext_resource type="Resource" path="res://enemies/heli.tres" id="3_data"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hitbox"]
+size = Vector2(26, 26)
+
+[node name="Heli" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_enemy")
+data = ExtResource("3_data")
+movement_speed = 60.0
+sine_amplitude = 50.0
+sine_frequency = 1.8
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_sprite")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_hitbox")

@@ -20,7 +20,11 @@ const DESPAWN_MARGIN := 32.0
 ## Turn rate toward the nearest enemy, in radians per second. 0 = dumb fire.
 @export var homing_turn_rate := 0.0
 
+## When true, bullet passes through enemies without disappearing (laser).
+@export var is_piercing := false
+
 var _velocity := Vector2.ZERO
+var _hit_targets: Array[Node] = []
 
 
 func _ready() -> void:
@@ -31,11 +35,12 @@ func _ready() -> void:
 
 ## Fills in everything a weapon cares about. Called before the bullet enters the
 ## tree so _ready() can build its velocity from the final numbers.
-func configure(p_speed: float, p_damage: int, p_direction: Vector2, p_homing_turn_rate := 0.0) -> void:
+func configure(p_speed: float, p_damage: int, p_direction: Vector2, p_homing_turn_rate := 0.0, p_is_piercing := false) -> void:
 	speed = p_speed
 	damage = p_damage
 	direction = p_direction
 	homing_turn_rate = p_homing_turn_rate
+	is_piercing = p_is_piercing
 
 
 func _physics_process(delta: float) -> void:
@@ -106,5 +111,11 @@ func _on_body_entered(body: Node2D) -> void:
 func _hit(target: Node) -> void:
 	if target == null or not target.has_method(&"take_damage"):
 		return
-	target.take_damage(damage)
-	queue_free()
+	if is_piercing:
+		if target in _hit_targets:
+			return
+		_hit_targets.append(target)
+		target.take_damage(damage)
+	else:
+		target.take_damage(damage)
+		queue_free()

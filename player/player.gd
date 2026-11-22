@@ -76,6 +76,8 @@ func _physics_process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"barrel_roll"):
 		start_roll()
+	if event.is_action_pressed(&"bomb"):
+		_use_bomb()
 
 
 ## The Barrel Roll (§4.3). Melesat in the input direction — straight back when
@@ -222,3 +224,15 @@ func _on_hurtbox_area_entered(_area: Area2D) -> void:
 
 func _on_hurtbox_body_entered(_body: Node2D) -> void:
 	take_damage()
+
+
+## Screen-clear bomb (§4.2): destroys all enemy bullets and deals heavy damage
+## to every enemy on screen.
+func _use_bomb() -> void:
+	if _is_dead or not GameManager.use_bomb():
+		return
+	for bullet in get_tree().get_nodes_in_group(&"enemy_bullets"):
+		bullet.queue_free()
+	for enemy in get_tree().get_nodes_in_group(&"enemies"):
+		if enemy.has_method(&"take_damage"):
+			enemy.take_damage(10)

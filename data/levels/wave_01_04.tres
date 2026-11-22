@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="WaveData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://resources/WaveData.gd" id="1_wave_data"]
+[ext_resource type="PackedScene" path="res://enemies/army.tscn" id="2_enemy"]
+
+[resource]
+script = ExtResource("1_wave_data")
+count = 5
+spawn_group = &"spawn_top"
+interval = 0.5
+delay_before = 1.5
+formation = &"random"
+enemy_scene = ExtResource("2_enemy")

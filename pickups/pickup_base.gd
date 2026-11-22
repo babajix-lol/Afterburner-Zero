@@ -55,6 +55,13 @@ func _process(delta: float) -> void:
 		_icon.modulate.a = 1.0
 
 
+const WEAPON_POOL := [
+	preload("res://data/weapons/spread.tres"),
+	preload("res://data/weapons/laser.tres"),
+	preload("res://data/weapons/homing.tres"),
+]
+
+
 func _on_body_entered(body: Node2D) -> void:
 	if _taken or not body.is_in_group(&"player"):
 		return
@@ -78,7 +85,8 @@ func _apply(player: Node2D) -> bool:
 		&"bomb":
 			GameManager.add_bomb(bomb_amount)
 		&"weapon":
-			if weapon_data == null:
-				return false
-			GameManager.set_weapon(weapon_data)
+			var chosen := weapon_data
+			if chosen == null:
+				chosen = WEAPON_POOL[randi() % WEAPON_POOL.size()]
+			GameManager.set_weapon(chosen)
 	return true

@@ -282,7 +282,11 @@ func _die() -> void:
 	if hitbox != null:
 		hitbox.set_deferred("disabled", true)
 	if data != null:
-		GameManager.add_score(data.score_value)
+		var tracker := get_tree().get_first_node_in_group(&"combo_tracker") as ComboTracker
+		if tracker != null:
+			tracker.register_kill(data.score_value)
+		else:
+			GameManager.add_score(data.score_value)
 	_spawn_drop()
 	AudioManager.play_sfx(death_sfx)
 	var tween := create_tween()
@@ -317,6 +321,11 @@ func _apply_data() -> void:
 		return
 	_health = maxi(data.max_health, 1) + _hp_bonus
 	_fire_interval = maxf(data.fire_interval, 0.05) / maxf(_fire_rate_mult, 0.01)
+	if data.is_elite:
+		scale = Vector2.ONE * data.elite_scale
+		_base_modulate = data.elite_modulate
+		_sprite.modulate = _base_modulate
+		_health += 2
 	# Stagger the first shot so a wave does not open as one synchronized volley.
 	_fire_timer = _fire_interval * randf_range(0.35, 1.0)
 

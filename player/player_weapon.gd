@@ -92,7 +92,9 @@ func _spawn(bullet_scene: PackedScene, angle: float, damage: int, homing: bool) 
 		return
 	var bullet := bullet_scene.instantiate()
 	if bullet is PlayerBullet:
-		bullet.configure(bullet_speed, damage, Vector2.UP.rotated(angle), homing_turn_rate if homing else 0.0)
+		var spd: float = bullet.speed if not is_equal_approx(bullet.speed, 460.0) else bullet_speed
+		var turn: float = homing_turn_rate if homing else (bullet.homing_turn_rate if bullet.homing_turn_rate > 0.0 else 0.0)
+		bullet.configure(spd, damage, Vector2.UP.rotated(angle), turn, bullet.is_piercing)
 	container.add_child(bullet)
 	if bullet is Node2D:
 		bullet.global_position = global_position

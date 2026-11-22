@@ -24,3 +24,8 @@ class_name EnemyData
 
 ## Weighted pickups: [{ "scene": PackedScene, "weight": float }, ...].
 @export var drop_table: Array = []
+
+## Marks an elite enemy variant (§3.3: recolor + scale + tougher).
+@export var is_elite: bool = false
+@export var elite_modulate: Color = Color(1.3, 0.45, 0.45)
+@export var elite_scale: float = 1.2

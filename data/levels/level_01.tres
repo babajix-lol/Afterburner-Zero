@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://resources/LevelData.gd" id="1_level_data"]
+[ext_resource type="Resource" path="res://data/levels/wave_01_01.tres" id="2_wave1"]
+[ext_resource type="Resource" path="res://data/levels/wave_01_02.tres" id="3_wave2"]
+[ext_resource type="Resource" path="res://data/levels/wave_01_03.tres" id="4_wave3"]
+[ext_resource type="Resource" path="res://data/levels/wave_01_04.tres" id="5_wave4"]
+[ext_resource type="Resource" path="res://data/levels/wave_01_05.tres" id="6_wave5"]
+
+[resource]
+script = ExtResource("1_level_data")
+level_index = 1
+level_name = "Highway Breach"
+briefing_lines = Array[String](["Jalan tol sudah dikuasai Iron Talon.", "Bersihkan barikade dan buka jalan ke pusat kota."])
+victory_lines = Array[String](["Sektor satu bersih.", "Mereka tidak akan menyerah cuma karena ini."])
+scroll_speed = 50.0
+waves = Array[WaveData]([ExtResource("2_wave1"), ExtResource("3_wave2"), ExtResource("4_wave3"), ExtResource("5_wave4"), ExtResource("6_wave5")])
+difficulty = {
+"enemy_speed_mult": 1.0,
+"enemy_hp_bonus": 0,
+"fire_rate_mult": 1.0,
+"spawn_density_mult": 1.0
+}

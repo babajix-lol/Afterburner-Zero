@@ -32,5 +32,8 @@ signal boss_started(boss: Node)
 ## The level was cleared (§5.3: triggers save + victory dialog).
 signal level_completed(index: int)
 
+## Score multiplier changed (§4.6 combo system).
+signal combo_changed(value: int)
+
 ## The run is over — lives hit zero.
 signal player_died()

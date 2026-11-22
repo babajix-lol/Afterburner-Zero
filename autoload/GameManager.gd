@@ -34,8 +34,9 @@ func start_run() -> void:
 func begin_level(index: int, data: LevelData) -> void:
 	current_level = index
 	level_data = data
-	# §4.2: every level starts with one bomb. Lives, score and weapon persist
-	# for the duration of the run.
+	# §4.1: weapons reset to Default Cannon on level change.
+	weapon = null
+	# §4.2: every level starts with one bomb.
 	bombs = STARTING_BOMBS
 	_announce_all()
 
