@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://bosses/boss_base.gd" id="1_boss"]
+[ext_resource type="Texture2D" path="res://assets/sprites/heli.png" id="2_sprite"]
+[ext_resource type="PackedScene" path="res://projectiles/enemy_bullet.tscn" id="3_bullet"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_boss"]
+size = Vector2(76, 34)
+
+[node name="BossTwin" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_boss")
+boss_kind = "twin"
+display_name = "TWIN GUNSHIP"
+score_value = 3500
+bullet_scene = ExtResource("3_bullet")
+muzzle_offsets = Array[Vector2]([Vector2(-30, 0), Vector2(30, 0)])
+fire_speed = 180.0
+hover_amplitude = 110.0
+hover_frequency = 0.45
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(-30, 0)
+scale = Vector2(1.6, 1.6)
+modulate = Color(0.5, 0.55, 0.62, 1)
+texture = ExtResource("2_sprite")
+
+[node name="Wing" type="Sprite2D" parent="Sprite"]
+position = Vector2(60, 0)
+texture = ExtResource("2_sprite")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_boss")

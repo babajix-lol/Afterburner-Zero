@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://resources/LevelData.gd" id="1_level_data"]
+[ext_resource type="PackedScene" path="res://bosses/boss_bomber.tscn" id="2_boss"]
+[ext_resource type="Resource" path="res://data/levels/wave_03_01.tres" id="3_wave1"]
+[ext_resource type="Resource" path="res://data/levels/wave_03_02.tres" id="4_wave2"]
+[ext_resource type="Resource" path="res://data/levels/wave_03_03.tres" id="5_wave3"]
+[ext_resource type="Resource" path="res://data/levels/wave_03_04.tres" id="6_wave4"]
+[ext_resource type="Resource" path="res://data/levels/wave_03_05.tres" id="7_wave5"]
+[ext_resource type="Resource" path="res://data/levels/wave_03_06.tres" id="8_wave6"]
+
+[resource]
+script = ExtResource("1_level_data")
+level_index = 3
+level_name = "Industrial District"
+briefing_lines = Array[String](["Tiga radar mengunci langit ini.", "Hancurkan sebelum mereka memanggil Bomber Command."])
+victory_lines = Array[String](["Radar padam.", "Tapi Bomber Command sudah datang sendiri."])
+scroll_speed = 60.0
+boss_scene = ExtResource("2_boss")
+waves = Array[WaveData]([ExtResource("3_wave1"), ExtResource("4_wave2"), ExtResource("5_wave3"), ExtResource("6_wave4"), ExtResource("7_wave5"), ExtResource("8_wave6")])
+difficulty = {
+"enemy_speed_mult": 1.25,
+"enemy_hp_bonus": 1,
+"fire_rate_mult": 1.25,
+"spawn_density_mult": 1.3
+}

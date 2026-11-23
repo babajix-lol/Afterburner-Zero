@@ -27,9 +27,8 @@ func _ready() -> void:
 		add_child(voice)
 		_sfx_voices.append(voice)
 
-	var master := float(SaveManager.get_setting("master_volume", 1.0))
-	set_bus_volume(BGM_BUS, master)
-	set_bus_volume(SFX_BUS, master)
+	set_bus_volume(BGM_BUS, float(SaveManager.get_setting("bgm_volume", 1.0)))
+	set_bus_volume(SFX_BUS, float(SaveManager.get_setting("sfx_volume", 1.0)))
 
 
 ## Starts looping background music. Re-calling with the same stream is a no-op.
@@ -70,7 +69,12 @@ func set_bus_volume(bus_name: StringName, linear: float) -> void:
 		AudioServer.set_bus_volume_linear(bus, linear)
 
 
-func set_master_volume(linear: float) -> void:
+## §3.5 Settings: separate sliders for music and effects. Both are persisted.
+func set_bgm_volume(linear: float) -> void:
 	set_bus_volume(BGM_BUS, linear)
+	SaveManager.set_setting("bgm_volume", clampf(linear, 0.0, 1.0))
+
+
+func set_sfx_volume(linear: float) -> void:
 	set_bus_volume(SFX_BUS, linear)
-	SaveManager.set_setting("master_volume", linear)
+	SaveManager.set_setting("sfx_volume", clampf(linear, 0.0, 1.0))

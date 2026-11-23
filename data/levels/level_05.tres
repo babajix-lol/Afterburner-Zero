@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://resources/LevelData.gd" id="1_level_data"]
+[ext_resource type="PackedScene" path="res://bosses/boss_dreadnought.tscn" id="2_boss"]
+[ext_resource type="Resource" path="res://data/levels/wave_05_01.tres" id="3_wave1"]
+[ext_resource type="Resource" path="res://data/levels/wave_05_02.tres" id="4_wave2"]
+[ext_resource type="Resource" path="res://data/levels/wave_05_03.tres" id="5_wave3"]
+[ext_resource type="Resource" path="res://data/levels/wave_05_04.tres" id="6_wave4"]
+[ext_resource type="Resource" path="res://data/levels/wave_05_05.tres" id="7_wave5"]
+[ext_resource type="Resource" path="res://data/levels/wave_05_06.tres" id="8_wave6"]
+[ext_resource type="Resource" path="res://data/levels/wave_05_07.tres" id="9_wave7"]
+
+[resource]
+script = ExtResource("1_level_data")
+level_index = 5
+level_name = "Zero Hour: Black Site"
+briefing_lines = Array[String](["Tidak ada jalan pulang.", "Hancurkan Warlord Dreadnought, akhiri semuanya."])
+victory_lines = Array[String](["Black Site runtuh.", "Sirene berhenti untuk pertama kalinya dalam semalam.", "— AFTERBURNER ZERO. MISSION COMPLETE."])
+scroll_speed = 70.0
+boss_scene = ExtResource("2_boss")
+waves = Array[WaveData]([ExtResource("3_wave1"), ExtResource("4_wave2"), ExtResource("5_wave3"), ExtResource("6_wave4"), ExtResource("7_wave5"), ExtResource("8_wave6"), ExtResource("9_wave7")])
+difficulty = {
+"enemy_speed_mult": 1.6,
+"enemy_hp_bonus": 3,
+"fire_rate_mult": 1.6,
+"spawn_density_mult": 1.6
+}

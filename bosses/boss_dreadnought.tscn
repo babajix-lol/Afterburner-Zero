@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://bosses/boss_base.gd" id="1_boss"]
+[ext_resource type="Texture2D" path="res://assets/sprites/bomber.png" id="2_sprite"]
+[ext_resource type="PackedScene" path="res://projectiles/enemy_bullet.tscn" id="3_bullet"]
+[ext_resource type="PackedScene" path="res://enemies/army.tscn" id="4_add"]
+[ext_resource type="PackedScene" path="res://enemies/heli.tscn" id="5_add_alt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_boss"]
+size = Vector2(64, 58)
+
+[node name="BossDreadnought" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_boss")
+boss_kind = "dreadnought"
+display_name = "WARLORD DREADNOUGHT"
+score_value = 5000
+bullet_scene = ExtResource("3_bullet")
+add_scene = ExtResource("4_add")
+add_scene_alt = ExtResource("5_add_alt")
+muzzle_offsets = Array[Vector2]([Vector2(0, 0)])
+fire_speed = 160.0
+hover_amplitude = 120.0
+hover_frequency = 0.25
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(2.4, 2.4)
+modulate = Color(0.62, 0.2, 0.22, 1)
+texture = ExtResource("2_sprite")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_boss")

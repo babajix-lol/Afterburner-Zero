@@ -1,0 +1,83 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://ui/splash.gd" id="1_splash"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.05, 0.06, 0.1, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.72, 0.35, 1)
+
+[node name="Splash" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_splash")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.03, 0.04, 0.07, 1)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 26
+text = "AFTERBURNER ZERO"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.72, 0.9, 1)
+theme_override_font_sizes/font_size = 12
+text = "5 SEKTOR. SATU JET."
+horizontal_alignment = 1
+
+[node name="StoryLabel" type="Label" parent="Center/Panel/Margin/VBox"]
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.9, 0.94, 1)
+theme_override_font_sizes/font_size = 11
+text = "Kota jatuh dalam semalam. Faksi militer pembangkang Iron Talon menguasai jalan raya utama dan mendirikan Black Site di jantung kota.
+
+Kamu adalah pilot terakhir skuadron AFTERBURNER. Satu jet, lima sektor. Tembus sampai ke markas mereka."
+autowrap_mode = 3
+horizontal_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "MULAI"

@@ -39,6 +39,10 @@ const ENGINE_FPS := 14.0
 @onready var _weapon: PlayerWeapon = $Weapon
 @onready var _hurtbox: Area2D = $Hurtbox
 
+## The level that owns the auto-scrolling camera. Read for `camera_delta` so the
+## jet can cancel the scroll and hold its screen position (see _physics_process).
+var _level: BaseLevel = null
+
 var _invuln_timer := 0.0
 var _shield_timer := 0.0
 var _shield_span := SHIELD_DURATION
@@ -51,6 +55,9 @@ var _is_dead := false
 
 func _ready() -> void:
 	add_to_group(&"player")
+	# The level registers itself in _enter_tree(), which runs before this, so the
+	# lookup succeeds on the first frame. Null in standalone test scenes.
+	_level = get_tree().get_first_node_in_group(&"level") as BaseLevel
 	_build_engine_flame()
 	_shield_ring.set_energy(0.0)
 	_hurtbox.area_entered.connect(_on_hurtbox_area_entered)
@@ -68,6 +75,11 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity = Input.get_vector(&"move_left", &"move_right", &"move_up", &"move_down") * MOVE_SPEED
 	move_and_slide()
+	# §: the level scrolls the camera, so add that same displacement back to the
+	# jet. Idle input then leaves it fixed on screen instead of drifting backward,
+	# while its world position (and the Entities around it) still comes along.
+	if _level != null:
+		global_position += _level.camera_delta
 	_clamp_to_playfield()
 	_weapon.set_trigger(Input.is_action_pressed(&"fire"))
 	_update_visuals()
@@ -154,11 +166,21 @@ func _update_roll(delta: float) -> void:
 		_is_rolling = false
 
 
-## A vertical shmup camera scrolls the level, so the playfield is whatever the
-## camera currently shows — not a fixed rectangle.
+## Keeps the whole jet inside whatever the camera currently shows, so it can fly
+## forward, backward, left and right without ever leaving the viewport.
 func _clamp_to_playfield() -> void:
-	var bounds := _visible_world_rect().grow(-PLAYFIELD_MARGIN)
-	global_position = global_position.clamp(bounds.position, bounds.end)
+	var rect := _visible_world_rect()
+	var half := _sprite_half_extent()
+	global_position = global_position.clamp(rect.position + half, rect.end - half)
+
+
+## Half the ship sprite, so the clamp leaves a margin wide enough for the jet
+## itself. Never smaller than PLAYFIELD_MARGIN.
+func _sprite_half_extent() -> Vector2:
+	if _ship == null or _ship.texture == null:
+		return Vector2(PLAYFIELD_MARGIN, PLAYFIELD_MARGIN)
+	var half := _ship.texture.get_size() * 0.5
+	return Vector2(maxf(half.x, PLAYFIELD_MARGIN), maxf(half.y, PLAYFIELD_MARGIN))
 
 
 func _visible_world_rect() -> Rect2:

@@ -29,6 +29,14 @@ signal wave_started(index: int, total: int)
 ## The level's boss entered the arena.
 signal boss_started(boss: Node)
 
+## Boss health changed. `current` is the remaining health, `maximum` the boss's
+## starting pool. Emitted on spawn, on every hit, and with current 0 on death
+## (the HUD hides its bar when current reaches zero).
+signal boss_health_changed(current: int, maximum: int)
+
+## The boss moved into a new phase (§3.4). `phase` is 0-based, `total` the count.
+signal boss_phase_changed(phase: int, total: int)
+
 ## The level was cleared (§5.3: triggers save + victory dialog).
 signal level_completed(index: int)
 

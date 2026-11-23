@@ -12,10 +12,17 @@ class_name HUD
 @onready var _weapon_label: Label = $MarginContainer/TopBar/WeaponLabel
 @onready var _combo_label: Label = $MarginContainer/TopBar/ComboLabel
 @onready var _wave_label: Label = $MarginContainer/BottomBar/WaveLabel
+@onready var _boss_bar: VBoxContainer = $BossBar
+@onready var _boss_name: Label = $BossBar/BossName
+@onready var _boss_health: ProgressBar = $BossBar/BossHealth
 
 const HEART_FULL := preload("res://assets/sprites/heart.png")
 const HEART_EMPTY := preload("res://assets/sprites/heart_empty.png")
 const MAX_HEARTS := 5
+
+var _boss_display_name := "BOSS"
+var _boss_phase := 0
+var _boss_phase_count := 1
 
 
 func _ready() -> void:
@@ -24,10 +31,14 @@ func _ready() -> void:
 	EventBus.bomb_changed.connect(_on_bomb_changed)
 	EventBus.weapon_changed.connect(_on_weapon_changed)
 	EventBus.wave_started.connect(_on_wave_started)
+	EventBus.boss_started.connect(_on_boss_started)
+	EventBus.boss_health_changed.connect(_on_boss_health_changed)
+	EventBus.boss_phase_changed.connect(_on_boss_phase_changed)
 	if EventBus.has_signal(&"combo_changed"):
 		EventBus.combo_changed.connect(_on_combo_changed)
 	_wave_label.text = ""
 	_combo_label.text = ""
+	_boss_bar.visible = false
 
 
 func _on_score_changed(value: int) -> void:
@@ -73,3 +84,40 @@ func _on_combo_changed(value: int) -> void:
 	var tween := create_tween()
 	tween.tween_property(_combo_label, "scale", Vector2(1.3, 1.3), 0.08)
 	tween.tween_property(_combo_label, "scale", Vector2.ONE, 0.12)
+
+
+## §3.3/§3.4: the boss bar. The boss announces its name when it enters the arena,
+## then reports health on spawn / every hit / zero on death.
+func _on_boss_started(boss: Node) -> void:
+	var name_value: Variant = null
+	if boss != null:
+		name_value = boss.get(&"display_name")
+	_boss_display_name = str(name_value) if name_value != null else "BOSS"
+	_boss_bar.visible = true
+	_update_boss_label()
+
+
+func _on_boss_health_changed(current: int, maximum: int) -> void:
+	if maximum <= 0:
+		return
+	if current <= 0:
+		_boss_bar.visible = false
+		return
+	_boss_bar.visible = true
+	_boss_health.max_value = float(maximum)
+	_boss_health.value = float(clampi(current, 0, maximum))
+	_update_boss_label()
+
+
+func _on_boss_phase_changed(phase: int, total: int) -> void:
+	_boss_phase = phase
+	_boss_phase_count = maxi(total, 1)
+	_update_boss_label()
+
+
+## The name doubles as the phase readout so a multi-phase boss needs no extra widget.
+func _update_boss_label() -> void:
+	var text := _boss_display_name
+	if _boss_phase_count > 1:
+		text += "  -  FASE %d/%d" % [_boss_phase + 1, _boss_phase_count]
+	_boss_name.text = text

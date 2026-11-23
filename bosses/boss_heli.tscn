@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://bosses/boss_base.gd" id="1_boss"]
+[ext_resource type="Texture2D" path="res://assets/sprites/heli.png" id="2_sprite"]
+[ext_resource type="PackedScene" path="res://projectiles/enemy_bullet.tscn" id="3_bullet"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_boss"]
+size = Vector2(44, 40)
+
+[node name="BossHeli" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_boss")
+boss_kind = "heli"
+display_name = "GUNSHIP HELI"
+score_value = 1500
+bullet_scene = ExtResource("3_bullet")
+muzzle_offsets = Array[Vector2]([Vector2(0, 0)])
+fire_speed = 170.0
+hover_amplitude = 100.0
+hover_frequency = 0.4
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(1.8, 1.8)
+modulate = Color(0.55, 0.6, 0.72, 1)
+texture = ExtResource("2_sprite")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_boss")

@@ -8,7 +8,8 @@ extends Node
 const SAVE_PATH := "user://afterburner_zero_save.json"
 
 const DEFAULT_SETTINGS := {
-	"master_volume": 1.0,
+	"bgm_volume": 1.0,
+	"sfx_volume": 1.0,
 }
 
 ## Known top-level keys — anything else in the file is ignored, so an old or

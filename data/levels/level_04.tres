@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://resources/LevelData.gd" id="1_level_data"]
+[ext_resource type="PackedScene" path="res://bosses/boss_twin.tscn" id="2_boss"]
+[ext_resource type="Resource" path="res://data/levels/wave_04_01.tres" id="3_wave1"]
+[ext_resource type="Resource" path="res://data/levels/wave_04_02.tres" id="4_wave2"]
+[ext_resource type="Resource" path="res://data/levels/wave_04_03.tres" id="5_wave3"]
+[ext_resource type="Resource" path="res://data/levels/wave_04_04.tres" id="6_wave4"]
+[ext_resource type="Resource" path="res://data/levels/wave_04_05.tres" id="7_wave5"]
+[ext_resource type="Resource" path="res://data/levels/wave_04_06.tres" id="8_wave6"]
+
+[resource]
+script = ExtResource("1_level_data")
+level_index = 4
+level_name = "Harbor Siege"
+briefing_lines = Array[String](["Pelabuhan jadi tempat bertahan mereka.", "Gelombang akan datang tanpa henti — bertahanlah."])
+victory_lines = Array[String](["Dermaga kosong.", "Black Site ada tepat di depan."])
+scroll_speed = 65.0
+boss_scene = ExtResource("2_boss")
+waves = Array[WaveData]([ExtResource("3_wave1"), ExtResource("4_wave2"), ExtResource("5_wave3"), ExtResource("6_wave4"), ExtResource("7_wave5"), ExtResource("8_wave6")])
+difficulty = {
+"enemy_speed_mult": 1.4,
+"enemy_hp_bonus": 2,
+"fire_rate_mult": 1.4,
+"spawn_density_mult": 1.45
+}
