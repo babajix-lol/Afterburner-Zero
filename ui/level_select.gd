@@ -1,6 +1,7 @@
 extends Control
 
 const LEVEL_DATA_PATH := "res://data/levels/level_%02d.tres"
+const MENU_BGM_PATH := "res://assets/audio/bgm/bgm_menu.wav"
 const LEVEL_COUNT := 5
 
 @onready var _list: VBoxContainer = $Center/Panel/Margin/VBox/List
@@ -10,6 +11,7 @@ var _busy := false
 var _buttons: Array[Button] = []
 
 func _ready() -> void:
+	AudioManager.play_music_path(MENU_BGM_PATH, 0.35)
 	_back_button.pressed.connect(_on_back)
 	_build_buttons()
 

@@ -1,6 +1,6 @@
 # Afterburner Zero — Progress & Context Summary
 
-**Last Updated:** Phase 2 Complete (2026-11-22)  
+**Last Updated:** Phase 3 BGM & Audio Wiring Complete (2026-11-26)  
 **Engine:** Godot 4.7.1 (GDScript)  
 **Main Specification:** `2026-11-18-afterburner-zero-5level-design.md`  
 **GitHub Repository:** [https://github.com/babajix-lol/Afterburner-Zero](https://github.com/babajix-lol/Afterburner-Zero) (`master` branch, Public)  
@@ -30,7 +30,7 @@ When continuing this project, read this file first. It summarizes the architectu
 - `EventBus.gd`: Global event bus (`score_changed`, `lives_changed`, `bomb_changed`, `weapon_changed`, `shield_changed`, `combo_changed`, `wave_started`, `boss_started`, `level_completed`, `player_died`).
 - `SceneRouter.gd`: Handles smooth screen fade-in/out and level loading.
 - `SaveManager.gd`: Saves/loads `unlocked_level`, `best_score`, and volume settings to `user://afterburner_zero_save.json`.
-- `AudioManager.gd`: Background music channel + 8-voice concurrent SFX pool.
+- `AudioManager.gd`: Background music channel (`process_mode = PROCESS_MODE_ALWAYS`, auto-loop via `finished`, fade-in/fade-out, `play_music_path()`) + 8-voice concurrent SFX pool.
 
 ### Core Data Models (`resources/`)
 - `LevelData.gd`: Level index, briefing/victory dialog, scroll speed, BGM, boss scene, wave list, difficulty dictionary.
@@ -77,6 +77,16 @@ When continuing this project, read this file first. It summarizes the architectu
 - `ui/hud.tscn` / `ui/hud.gd`: Displays score, heart containers, bomb counter, active weapon, animated combo multiplier (`x1`–`x5`), and wave banner alerts.
 - Level 1 Test: `levels/level_01.tscn` backed by `data/levels/level_01.tres` (5 waves).
 
+### Audio & Background Music (`assets/audio/bgm/`, `_tools/generate_bgm.py`)
+- `_tools/generate_bgm.py`: Pure-Python procedural Arcade Synthwave / Darksynth WAV generator (44.1 kHz, 16-bit stereo, seamless bar-aligned loops).
+- Generated tracks in `assets/audio/bgm/`:
+  - `bgm_menu.wav` (110 BPM): Wired to `ui/splash.gd`, `ui/main_menu.gd`, `ui/level_select.gd`.
+  - `bgm_level_01.wav` – `bgm_level_05.wav` (128–154 BPM): Assigned to `background_music` in `data/levels/level_01.tres` – `level_05.tres`.
+  - `bgm_boss.wav` (156 BPM): Triggered in `levels/base_level.gd` inside `enter_boss_arena()`.
+  - `bgm_victory.wav` (105 BPM): Triggered in `levels/base_level.gd` (`_on_level_completed`) and `ui/victory.gd`.
+  - `bgm_gameover.wav` (84 BPM): Triggered in `ui/game_over.gd`.
+- **Note for next agent:** Open the project in Godot Editor (or run a Godot import pass) so `.wav.import` files are generated for the new files in `assets/audio/bgm/`. SFX streams are still unassigned (only BGM was added).
+
 ---
 
 ## 3. What Needs to Be Built Next (Phase 3)
@@ -119,6 +129,10 @@ Run these from the project root (`c:\Users\razi ahnaf fawwaz\OneDrive\Dokumen\af
 - **Headless Scene Smoke Test:**
   ```powershell
   & "C:\Users\razi ahnaf fawwaz\Downloads\Godot_v4.7.1-stable_win64.exe\Godot_v4.7.1-stable_win64_console.exe" --headless --path . --fixed-fps 60 --quit-after 180 --scene "res://levels/level_01.tscn"
+  ```
+- **Regenerate Procedural BGM Tracks:**
+  ```powershell
+  python _tools/generate_bgm.py
   ```
 - **Push to GitHub:**
   ```powershell

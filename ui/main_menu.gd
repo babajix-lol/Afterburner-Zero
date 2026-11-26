@@ -1,5 +1,7 @@
 extends Control
 
+const MENU_BGM_PATH := "res://assets/audio/bgm/bgm_menu.wav"
+
 @onready var _play_button: Button = $Center/Panel/Margin/VBox/PlayButton
 @onready var _level_select_button: Button = $Center/Panel/Margin/VBox/LevelSelectButton
 @onready var _settings_button: Button = $Center/Panel/Margin/VBox/SettingsButton
@@ -14,6 +16,7 @@ extends Control
 var _busy := false
 
 func _ready() -> void:
+	AudioManager.play_music_path(MENU_BGM_PATH, 0.35)
 	_play_button.pressed.connect(_on_play)
 	_level_select_button.pressed.connect(_on_level_select)
 	_settings_button.pressed.connect(_open_settings)

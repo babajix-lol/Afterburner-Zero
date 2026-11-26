@@ -5,6 +5,8 @@ const DIALOG_SCENE := preload("res://ui/dialog_box.tscn")
 const PAUSE_SCENE := preload("res://ui/pause_menu.tscn")
 const GAME_OVER_SCENE := "res://ui/game_over.tscn"
 const VICTORY_SCENE := "res://ui/victory.tscn"
+const BOSS_BGM_PATH := "res://assets/audio/bgm/bgm_boss.wav"
+const VICTORY_BGM_PATH := "res://assets/audio/bgm/bgm_victory.wav"
 
 @export var environment_tint: Color = Color.WHITE
 
@@ -78,6 +80,7 @@ func enter_boss_arena() -> void:
 	var data := GameManager.level_data
 	if data == null or data.boss_scene == null:
 		return
+	AudioManager.play_music_path(BOSS_BGM_PATH, 0.35)
 	var cam_center := _camera.get_screen_center_position()
 	var arena := get_node_or_null("BossArena") as Marker2D
 	if arena != null:
@@ -94,6 +97,7 @@ func _on_level_completed(index: int) -> void:
 	if _completing:
 		return
 	_completing = true
+	AudioManager.play_music_path(VICTORY_BGM_PATH, 0.3)
 	SaveManager.unlock_level(index + 1)
 	SaveManager.submit_score(GameManager.score)
 	var data := GameManager.level_data

@@ -1,10 +1,13 @@
 extends Control
 
+const MENU_BGM_PATH := "res://assets/audio/bgm/bgm_menu.wav"
+
 @onready var _continue_button: Button = $Center/Panel/Margin/VBox/ContinueButton
 
 var _busy := false
 
 func _ready() -> void:
+	AudioManager.play_music_path(MENU_BGM_PATH, 0.35)
 	_continue_button.pressed.connect(_continue)
 	_continue_button.grab_focus()
 

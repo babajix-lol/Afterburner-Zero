@@ -1,6 +1,7 @@
 extends Control
 
 const FINAL_LEVEL_DATA := "res://data/levels/level_05.tres"
+const VICTORY_BGM_PATH := "res://assets/audio/bgm/bgm_victory.wav"
 
 @onready var _ending_label: Label = $Center/Panel/Margin/VBox/EndingLabel
 @onready var _score_label: Label = $Center/Panel/Margin/VBox/ScoreLabel
@@ -10,6 +11,7 @@ var _busy := false
 
 func _ready() -> void:
 	GameManager.end_run()
+	AudioManager.play_music_path(VICTORY_BGM_PATH, 0.35)
 	_ending_label.text = _ending_text()
 	_score_label.text = "FINAL SCORE: %d\nBEST SCORE: %d" % [GameManager.score, SaveManager.get_best_score()]
 	_menu_button.pressed.connect(_to_main_menu)
