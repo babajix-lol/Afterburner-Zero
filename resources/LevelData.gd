@@ -6,9 +6,6 @@ class_name LevelData
 @export var briefing_lines: Array[String] = []
 @export var victory_lines: Array[String] = []
 @export var background_music: AudioStream
-@export var background_texture: Texture2D
-@export var midground_texture: Texture2D
-@export var sky_color: Color = Color(0.08, 0.08, 0.14, 1.0)
 @export var scroll_speed: float = 60.0
 @export var boss_scene: PackedScene
 @export var waves: Array[WaveData] = []

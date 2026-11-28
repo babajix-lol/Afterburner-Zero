@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=11 format=3]
+[gd_resource type="Resource" script_class="LevelData" load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://resources/LevelData.gd" id="1_level_data"]
 [ext_resource type="PackedScene" path="res://bosses/boss_heli.tscn" id="2_boss"]
@@ -8,8 +8,6 @@
 [ext_resource type="Resource" path="res://data/levels/wave_02_04.tres" id="6_wave4"]
 [ext_resource type="Resource" path="res://data/levels/wave_02_05.tres" id="7_wave5"]
 [ext_resource type="AudioStream" path="res://assets/audio/bgm/bgm_level_02.wav" id="8_bgm"]
-[ext_resource type="Texture2D" path="res://assets/tiles/Ruin_City_1.png" id="9_bg"]
-[ext_resource type="Texture2D" path="res://assets/tiles/Building3_1.png" id="10_mid"]
 
 [resource]
 script = ExtResource("1_level_data")
@@ -18,9 +16,6 @@ level_name = "Downtown Corridor"
 briefing_lines = Array[String](["Kota terbakar dari dalam.", "Ada Gunship mengawal koridor — jatuhkan sebelum kamu kehabisan ruang."])
 victory_lines = Array[String](["Koridor terbuka.", "Kawasan industri menunggu."])
 background_music = ExtResource("8_bgm")
-background_texture = ExtResource("9_bg")
-midground_texture = ExtResource("10_mid")
-sky_color = Color(1.0, 0.55, 0.18, 1.0)
 scroll_speed = 55.0
 boss_scene = ExtResource("2_boss")
 waves = Array[WaveData]([ExtResource("3_wave1"), ExtResource("4_wave2"), ExtResource("5_wave3"), ExtResource("6_wave4"), ExtResource("7_wave5")])

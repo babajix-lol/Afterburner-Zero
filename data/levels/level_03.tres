@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=12 format=3]
+[gd_resource type="Resource" script_class="LevelData" load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://resources/LevelData.gd" id="1_level_data"]
 [ext_resource type="PackedScene" path="res://bosses/boss_bomber.tscn" id="2_boss"]
@@ -9,8 +9,6 @@
 [ext_resource type="Resource" path="res://data/levels/wave_03_05.tres" id="7_wave5"]
 [ext_resource type="Resource" path="res://data/levels/wave_03_06.tres" id="8_wave6"]
 [ext_resource type="AudioStream" path="res://assets/audio/bgm/bgm_level_03.wav" id="9_bgm"]
-[ext_resource type="Texture2D" path="res://assets/tiles/background_1.png" id="10_bg"]
-[ext_resource type="Texture2D" path="res://assets/tiles/Building1_1.png" id="11_mid"]
 
 [resource]
 script = ExtResource("1_level_data")
@@ -19,9 +17,6 @@ level_name = "Industrial District"
 briefing_lines = Array[String](["Tiga radar mengunci langit ini.", "Hancurkan sebelum mereka memanggil Bomber Command."])
 victory_lines = Array[String](["Radar padam.", "Tapi Bomber Command sudah datang sendiri."])
 background_music = ExtResource("9_bgm")
-background_texture = ExtResource("10_bg")
-midground_texture = ExtResource("11_mid")
-sky_color = Color(0.44, 0.48, 0.52, 1.0)
 scroll_speed = 60.0
 boss_scene = ExtResource("2_boss")
 waves = Array[WaveData]([ExtResource("3_wave1"), ExtResource("4_wave2"), ExtResource("5_wave3"), ExtResource("6_wave4"), ExtResource("7_wave5"), ExtResource("8_wave6")])

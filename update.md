@@ -1,6 +1,6 @@
 # Afterburner Zero — Progress & Context Summary
 
-**Last Updated:** Phase 3 Parallax Background System (2026-11-28)  
+**Last Updated:** Phase 3 BGM & Audio Wiring Complete (2026-11-26)  
 **Engine:** Godot 4.7.1 (GDScript)  
 **Main Specification:** `2026-11-18-afterburner-zero-5level-design.md`  
 **GitHub Repository:** [https://github.com/babajix-lol/Afterburner-Zero](https://github.com/babajix-lol/Afterburner-Zero) (`master` branch, Public)  
@@ -86,21 +86,6 @@ When continuing this project, read this file first. It summarizes the architectu
   - `bgm_victory.wav` (105 BPM): Triggered in `levels/base_level.gd` (`_on_level_completed`) and `ui/victory.gd`.
   - `bgm_gameover.wav` (84 BPM): Triggered in `ui/game_over.gd`.
 - **Note for next agent:** Open the project in Godot Editor (or run a Godot import pass) so `.wav.import` files are generated for the new files in `assets/audio/bgm/`. SFX streams are still unassigned (only BGM was added).
-
-### Parallax Background System (`levels/`, `resources/`, `data/levels/`)
-- `resources/LevelData.gd`: Added `background_texture: Texture2D`, `midground_texture: Texture2D`, and `sky_color: Color` exports.
-- `levels/base_level.tscn`: Added `Sky` (ColorRect, z=-3), `Midground` (Sprite2D, z=-1) nodes under `Background`. Both driven by `LevelData` values at runtime.
-- `levels/base_level.gd`:
-  - On `_ready()`: reads `data.sky_color` → `Sky.color`; reads `data.background_texture` → `Backdrop.texture`; reads `data.midground_texture` → `Midground.texture` with 72% alpha tinted by `environment_tint`.
-  - On `_physics_process()`: `Midground` scrolls at **55% of camera speed** for parallax depth effect; wraps at 8000 px to match tile region.
-- Level data (`data/levels/level_01.tres` – `level_05.tres`): assigned unique `background_texture`, `midground_texture`, and `sky_color` per level:
-  - L1 Highway Breach: `background_1.png` / `Building2_1.png` / sky `Color(0.72, 0.84, 1.0)` (siang cerah)
-  - L2 Downtown Corridor: `Ruin_City_1.png` / `Building3_1.png` / sky `Color(1.0, 0.55, 0.18)` (sore merah-oranye)
-  - L3 Industrial District: `background_1.png` / `Building1_1.png` / sky `Color(0.44, 0.48, 0.52)` (mendung abu-abu)
-  - L4 Harbor Siege: `sprBG_1.png` / `Building2_1.png` / sky `Color(0.12, 0.18, 0.38)` (malam biru tua)
-  - L5 Zero Hour: `Black_1.png` / `Ruin_City_1.png` / sky `Color(0.56, 0.06, 0.04)` (merah perang)
-- Level scenes (`levels/level_01.tscn` – `level_05.tscn`): `environment_tint` updated per level for consistent Backdrop modulation.
-- **Note for next agent:** `Midground` node needs `region_rect` and `texture_repeat` verified in Godot Editor for each per-level texture (especially `Ruin_City_1.png` which is 4340×725 — may need `region_rect = Rect2(0,0,640,725)` tiled). SFX streams still unassigned.
 
 ---
 
