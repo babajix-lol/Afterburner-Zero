@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="1280" viewBox="0 0 640 1280">
+  <defs>
+    <linearGradient id="ground" x2="0" y2="1">
+      <stop stop-color="#667047"/>
+      <stop offset="1" stop-color="#454a32"/>
+    </linearGradient>
+    <pattern id="grass" width="58" height="54" patternUnits="userSpaceOnUse">
+      <path d="M7 5l5 8m14 21l-4 9m26-36l-4 8M2 48l6-5m41 4l5-8" stroke="#a0a06b" stroke-opacity=".22" stroke-width="2"/>
+      <circle cx="36" cy="12" r="2" fill="#c6a76c" fill-opacity=".26"/>
+    </pattern>
+    <pattern id="lane" width="12" height="152" patternUnits="userSpaceOnUse">
+      <rect x="4" y="0" width="4" height="72" rx="2" fill="#d0c9a7" fill-opacity=".72"/>
+    </pattern>
+  </defs>
+  <rect width="640" height="1280" fill="url(#ground)"/>
+  <rect width="640" height="1280" fill="url(#grass)"/>
+  <path d="M126 0h388v1280H126z" fill="#77766b"/>
+  <path d="M137 0h366v1280H137z" fill="#393c3a"/>
+  <path d="M149 0h342v1280H149z" fill="#474a47"/>
+  <path d="M160 0h6v1280h-6zm314 0h6v1280h-6z" fill="#b3a889"/>
+  <path d="M263 0h12v1280h-12zM377 0h12v1280h-12z" fill="url(#lane)"/>
+  <path d="M320 0v1280" stroke="#b6ae8e" stroke-width="4" stroke-dasharray="54 38" opacity=".8"/>
+  <g fill="#4a493b" stroke="#89835d" stroke-width="3">
+    <circle cx="52" cy="126" r="22"/><circle cx="82" cy="360" r="17"/>
+    <circle cx="40" cy="627" r="25"/><circle cx="87" cy="925" r="19"/>
+    <circle cx="55" cy="1155" r="23"/><circle cx="576" cy="240" r="22"/>
+    <circle cx="548" cy="512" r="18"/><circle cx="584" cy="812" r="26"/>
+    <circle cx="550" cy="1056" r="19"/><circle cx="585" cy="1210" r="23"/>
+  </g>
+  <g fill="#77745a" opacity=".75">
+    <path d="M12 238l42-14 16 22-38 18zm516 53l59-17 20 24-53 20z"/>
+    <path d="M28 782l35-10 15 21-40 16zm519 371l49-15 18 20-46 17z"/>
+  </g>
+</svg>

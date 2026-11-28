@@ -1,6 +1,6 @@
 # Afterburner Zero — Progress & Context Summary
 
-**Last Updated:** Phase 3 BGM & Audio Wiring Complete (2026-11-26)  
+**Last Updated:** SFX & Themed Level Backgrounds Complete (2026-11-28)
 **Engine:** Godot 4.7.1 (GDScript)  
 **Main Specification:** `2026-11-18-afterburner-zero-5level-design.md`  
 **GitHub Repository:** [https://github.com/babajix-lol/Afterburner-Zero](https://github.com/babajix-lol/Afterburner-Zero) (`master` branch, Public)  
@@ -33,14 +33,14 @@ When continuing this project, read this file first. It summarizes the architectu
 - `AudioManager.gd`: Background music channel (`process_mode = PROCESS_MODE_ALWAYS`, auto-loop via `finished`, fade-in/fade-out, `play_music_path()`) + 8-voice concurrent SFX pool.
 
 ### Core Data Models (`resources/`)
-- `LevelData.gd`: Level index, briefing/victory dialog, scroll speed, BGM, boss scene, wave list, difficulty dictionary.
+- `LevelData.gd`: Level index, briefing/victory dialog, scroll speed, BGM, background texture, boss scene, wave list, difficulty dictionary.
 - `WaveData.gd`: Enemy scene, count, spawn group (`spawn_top`, `spawn_left`, `spawn_right`), interval, delay, formation (`line`, `vee`, `random`), `is_boss_arena`.
 - `WeaponData.gd`: Display name, bullet scene, fire rate, damage, projectile count, spread angle, `is_homing`.
 - `EnemyData.gd`: HP, move pattern, fire pattern, fire interval, bullet scene, score value, drop table, elite flags (`is_elite`, `elite_modulate`, `elite_scale`).
 
 ### Player (`player/`)
 - `player.tscn` / `player.gd`: 8-way floating movement (170 px/s), Barrel Roll (`Shift`/`Space`) with 0.3s i-frames and 1.0s cooldown, Hurtbox, take damage, invulnerability flash, screen-clear bomb activation (`B`/`L`).
-- `player_weapon.gd`: Reads active weapon from `GameManager.weapon` or falls back to Default Cannon. Spawns single, spread fan, or homing missiles.
+- `player_weapon.gd`: Reads active weapon from `GameManager.weapon` or falls back to Default Cannon. Spawns single, spread fan, or homing missiles, with weapon-specific firing SFX.
 - `shield_ring.gd`: Procedurally rendered dynamic shield bubble when Shield pickup is active.
 
 ### Projectiles & Weapons (`projectiles/`, `data/weapons/`)
@@ -72,12 +72,12 @@ When continuing this project, read this file first. It summarizes the architectu
   - `army_elite.tres`: Elite soldier variant (recolored crimson, larger, fires 3-way fan).
 
 ### Base Level Template & HUD (`levels/`, `ui/`)
-- `levels/base_level.tscn` / `base_level.gd`: Root template with `Background` (Ground/Props `TileMapLayer`), `Entities`, `SpawnPoints` (`spawn_top`, `spawn_left`, `spawn_right`), `PlayerSpawn`, `BossArena`, scrolling `Camera2D`, `WaveManager`, `ComboTracker`, and `HUD`.
+- `levels/base_level.tscn` / `base_level.gd`: Root template with `Background` (Ground/Props `TileMapLayer`), `Entities`, `SpawnPoints` (`spawn_top`, `spawn_left`, `spawn_right`), `PlayerSpawn`, `BossArena`, scrolling `Camera2D`, `WaveManager`, `ComboTracker`, and `HUD`. The backdrop texture is selected from each level's `LevelData`.
 - `levels/wave_manager.gd`: Spawns waves sequentially from `LevelData.waves`.
 - `ui/hud.tscn` / `ui/hud.gd`: Displays score, heart containers, bomb counter, active weapon, animated combo multiplier (`x1`–`x5`), and wave banner alerts.
 - Level 1 Test: `levels/level_01.tscn` backed by `data/levels/level_01.tres` (5 waves).
 
-### Audio & Background Music (`assets/audio/bgm/`, `_tools/generate_bgm.py`)
+### Audio & Background Music (`assets/audio/`, `_tools/generate_bgm.py`)
 - `_tools/generate_bgm.py`: Pure-Python procedural Arcade Synthwave / Darksynth WAV generator (44.1 kHz, 16-bit stereo, seamless bar-aligned loops).
 - Generated tracks in `assets/audio/bgm/`:
   - `bgm_menu.wav` (110 BPM): Wired to `ui/splash.gd`, `ui/main_menu.gd`, `ui/level_select.gd`.
@@ -85,32 +85,26 @@ When continuing this project, read this file first. It summarizes the architectu
   - `bgm_boss.wav` (156 BPM): Triggered in `levels/base_level.gd` inside `enter_boss_arena()`.
   - `bgm_victory.wav` (105 BPM): Triggered in `levels/base_level.gd` (`_on_level_completed`) and `ui/victory.gd`.
   - `bgm_gameover.wav` (84 BPM): Triggered in `ui/game_over.gd`.
-- **Note for next agent:** Open the project in Godot Editor (or run a Godot import pass) so `.wav.import` files are generated for the new files in `assets/audio/bgm/`. SFX streams are still unassigned (only BGM was added).
+- `_tools/generate_sfx.py`: Generates the cannon, spread, laser, missile, hit, and enemy-death WAV effects in `assets/audio/sfx/`.
+- `AudioManager.gd`: Loads and caches SFX by resource path while keeping the existing multi-voice pool.
+- `player/player_weapon.gd`: Plays a firing effect for the default cannon and each named weapon.
+- `enemies/enemy_base.gd` and `bosses/boss_base.gd`: Play hit effects and fallback death effects.
+
+### Themed Level Backgrounds (`assets/backgrounds/`)
+- `highway.svg`: Level 1 — Highway Breach.
+- `downtown.svg`: Level 2 — Downtown Corridor.
+- `industrial.svg`: Level 3 — Industrial District.
+- `harbor.svg`: Level 4 — Harbor Siege.
+- `black_site.svg`: Level 5 — Zero Hour: Black Site.
+- Each level resource assigns its own texture through `background_texture`; the level backdrop still uses that level's environment tint.
 
 ---
 
-## 3. What Needs to Be Built Next (Phase 3)
+## 3. Current Project Status
 
-1. **Bosses (`bosses/`):**
-   - `boss_base.gd`: Common boss controller (health bar, phases, arena behavior, death event).
-   - `boss_heli.tscn`: Gunship Heli (Level 2 mini-boss, spread fire).
-   - `boss_bomber.tscn`: Bomber Command (Level 3 boss, carpet bomb + spread).
-   - `boss_twin.tscn`: Twin Gunship (Level 4 boss, 2 large helis, 2 phases).
-   - `boss_dreadnought.tscn`: Warlord Dreadnought (Level 5 final boss, 3 phases: fan+adds, carpet+sweep line, spiral+helis).
-2. **Levels 1–5 Data & Scenes (`data/levels/`, `levels/`):**
-   - Level 2: Downtown Corridor (`level_02.tres` / `level_02.tscn`)
-   - Level 3: Industrial District (`level_03.tres` / `level_03.tscn`)
-   - Level 4: Harbor Siege (`level_04.tres` / `level_04.tscn`)
-   - Level 5: Zero Hour: Black Site (`level_05.tres` / `level_05.tscn`)
-   - Tilemaps & environment palettes (siang, sore, mendung, malam, merah) using existing assets.
-3. **UI & Menus (`ui/`):**
-   - `splash.tscn`: Brief 2-line premise story intro (§3.1).
-   - `main_menu.tscn`: Play, Level Select, Settings, Quit.
-   - `level_select.tscn`: Shows unlocked levels (reads `SaveManager.get_unlocked_level()`).
-   - `dialog_box.tscn`: Briefing and victory dialogue (§3.5).
-   - `pause_menu.tscn`: In-game pause menu (`process_mode = PROCESS_MODE_ALWAYS`).
-   - `game_over.tscn`: Retry level from beginning or return to menu.
-   - `victory.tscn`: Ending mission complete screen.
+The five-level campaign, boss encounters, and UI flow are present. Recent additions wire generated firing/hit/death SFX and assign a distinct themed scrolling backdrop to each level.
+
+**Validation note:** SVG assets and level resource paths were checked. Run the project in Godot Editor to confirm the final in-game appearance and audio; no active Godot editor session was available during the latest update.
 
 ---
 

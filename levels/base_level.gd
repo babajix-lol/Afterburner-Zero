@@ -44,6 +44,8 @@ func _ready() -> void:
 			data = fallback
 	if data != null:
 		_scroll_speed = data.scroll_speed
+		if data.background_texture != null:
+			_backdrop.texture = data.background_texture
 		if data.background_music != null:
 			AudioManager.play_music(data.background_music)
 	_make_overlays()

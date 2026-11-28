@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="1280" viewBox="0 0 640 1280">
+  <defs>
+    <linearGradient id="road" x2="0" y2="1">
+      <stop stop-color="#494849"/>
+      <stop offset="1" stop-color="#303234"/>
+    </linearGradient>
+    <pattern id="windows" width="32" height="34" patternUnits="userSpaceOnUse">
+      <rect x="5" y="5" width="8" height="10" fill="#c59b63" opacity=".42"/>
+      <rect x="19" y="19" width="8" height="9" fill="#839096" opacity=".28"/>
+    </pattern>
+  </defs>
+  <rect width="640" height="1280" fill="#5b5750"/>
+  <path d="M0 0h126v1280H0zm514 0h126v1280H514z" fill="#706b61"/>
+  <path d="M0 0h126v1280H0zM514 0h126v1280H514z" fill="url(#windows)" opacity=".8"/>
+  <path d="M107 0h426v1280H107z" fill="#aaa08d"/>
+  <path d="M126 0h388v1280H126z" fill="url(#road)"/>
+  <path d="M139 0h8v1280h-8zm354 0h8v1280h-8z" fill="#b3a88f"/>
+  <path d="M314 0h12v1280h-12z" fill="#c1b695" stroke="#343638" stroke-width="2" stroke-dasharray="44 32"/>
+  <g fill="#3c3b39" stroke="#897c69" stroke-width="4">
+    <path d="M12 82l78-30 25 43-82 35zm524 80l80-23 15 52-83 24z"/>
+    <path d="M9 398l84-22 21 55-84 25zm531 105l68-35 28 46-77 38z"/>
+    <path d="M11 726l83-37 25 53-89 38zm522 42l84-29 20 55-91 29z"/>
+    <path d="M5 1010l92-28 18 54-91 30zm531 121l75-35 26 52-82 37z"/>
+  </g>
+  <g fill="#d3a268" opacity=".35">
+    <path d="M35 173h40v13H35zm523 127h45v14h-45zM30 576h42v12H30zm547 254h38v13h-38zM29 918h49v14H29z"/>
+  </g>
+  <g fill="#a69b84" opacity=".65">
+    <path d="M159 214l42-16 16 7-35 18zm250 119l58 10 13 13-65-8zM178 698l62-12 8 8-66 16zm237 362l56-15 15 9-64 17z"/>
+  </g>
+</svg>
