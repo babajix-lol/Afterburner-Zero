@@ -232,7 +232,10 @@ func take_damage(amount: int = 1) -> void:
 	if _health <= 0:
 		_die()
 		return
-	AudioManager.play_sfx(hit_sfx)
+	if hit_sfx != null:
+		AudioManager.play_sfx(hit_sfx)
+	else:
+		AudioManager.play_sfx_path("res://assets/audio/sfx/sfx_hit.wav")
 	_flash()
 
 func _flash() -> void:
@@ -250,7 +253,10 @@ func _die() -> void:
 		hitbox.set_deferred("disabled", true)
 	EventBus.boss_health_changed.emit(0, _max_health)
 	GameManager.add_score(score_value)
-	AudioManager.play_sfx(death_sfx)
+	if death_sfx != null:
+		AudioManager.play_sfx(death_sfx)
+	else:
+		AudioManager.play_sfx_path("res://assets/audio/sfx/sfx_die_large.wav")
 	for bullet in get_tree().get_nodes_in_group(&"enemy_bullets"):
 		bullet.queue_free()
 	for enemy in get_tree().get_nodes_in_group(&"enemies"):

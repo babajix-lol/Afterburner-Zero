@@ -7,6 +7,9 @@ const GAME_OVER_SCENE := "res://ui/game_over.tscn"
 const VICTORY_SCENE := "res://ui/victory.tscn"
 const BOSS_BGM_PATH := "res://assets/audio/bgm/bgm_boss.wav"
 const VICTORY_BGM_PATH := "res://assets/audio/bgm/bgm_victory.wav"
+const ULTIMATE_PICKUP_SCENE := preload("res://pickups/ultimate_pickup.tscn")
+const ULT_FIRST_SPAWN_DELAY := 8.0
+const ULT_SPAWN_INTERVAL := 14.0
 
 @export var environment_tint: Color = Color.WHITE
 
@@ -22,6 +25,8 @@ var _dialog: DialogBox = null
 var _pause_menu: PauseMenu = null
 var _completing := false
 var camera_delta := Vector2.ZERO
+var _ult_spawn_timer := 0.0
+var _ult_spawn_active := false
 
 func _enter_tree() -> void:
 	add_to_group(&"level")
@@ -44,6 +49,8 @@ func _ready() -> void:
 			data = fallback
 	if data != null:
 		_scroll_speed = data.scroll_speed
+		if data.background_texture != null:
+			_backdrop.texture = data.background_texture
 		if data.background_music != null:
 			AudioManager.play_music(data.background_music)
 	_make_overlays()
@@ -53,6 +60,9 @@ func _ready() -> void:
 		await _show_dialog("BRIEFING", data.briefing_lines)
 	if not is_inside_tree():
 		return
+	if GameManager.is_ultimate_allowed_level():
+		_ult_spawn_active = true
+		_ult_spawn_timer = ULT_FIRST_SPAWN_DELAY
 	_wave_manager.start(self)
 
 func _physics_process(delta: float) -> void:
@@ -62,6 +72,36 @@ func _physics_process(delta: float) -> void:
 		camera_delta = step
 	else:
 		camera_delta = Vector2.ZERO
+	_tick_ultimate_spawner(delta)
+
+func _tick_ultimate_spawner(delta: float) -> void:
+	if not _ult_spawn_active or not _scrolling:
+		return
+	if not GameManager.can_spawn_ultimate_pickup():
+		_ult_spawn_active = false
+		return
+	_ult_spawn_timer -= delta
+	if _ult_spawn_timer > 0.0:
+		return
+	_ult_spawn_timer = ULT_SPAWN_INTERVAL
+	_spawn_ultimate_collectible()
+
+func _spawn_ultimate_collectible() -> void:
+	if not GameManager.try_reserve_ultimate_spawn():
+		_ult_spawn_active = false
+		return
+	var view_size := get_viewport_rect().size
+	if _camera != null and not is_zero_approx(_camera.zoom.x) and not is_zero_approx(_camera.zoom.y):
+		view_size /= _camera.zoom
+	var cam_center := _camera.get_screen_center_position()
+	var half := view_size * 0.5
+	var margin := 48.0
+	var spawn_x := randf_range(cam_center.x - half.x + margin, cam_center.x + half.x - margin)
+	var spawn_y := cam_center.y - half.y - 18.0
+	var item := ULTIMATE_PICKUP_SCENE.instantiate()
+	_entities.add_child(item)
+	if item is Node2D:
+		item.global_position = Vector2(spawn_x, spawn_y)
 
 func _make_overlays() -> void:
 	_dialog = DIALOG_SCENE.instantiate() as DialogBox

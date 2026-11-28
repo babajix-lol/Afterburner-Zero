@@ -10,6 +10,7 @@ var _sfx_voices: Array[AudioStreamPlayer] = []
 var _next_voice := 0
 var _loop_music := true
 var _music_tween: Tween
+var _sfx_cache: Dictionary = {}
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -87,6 +88,16 @@ func play_sfx(stream: AudioStream, pitch: float = 1.0) -> void:
 	voice.stream = stream
 	voice.pitch_scale = pitch
 	voice.play()
+
+func play_sfx_path(path: String, pitch: float = 1.0) -> void:
+	if path.is_empty() or not ResourceLoader.exists(path):
+		return
+	var stream: AudioStream = _sfx_cache.get(path) as AudioStream
+	if stream == null:
+		stream = load(path) as AudioStream
+		if stream != null:
+			_sfx_cache[path] = stream
+	play_sfx(stream, pitch)
 
 func set_bus_volume(bus_name: StringName, linear: float) -> void:
 	var bus := AudioServer.get_bus_index(bus_name)

@@ -248,7 +248,10 @@ func take_damage(amount: int = 1) -> void:
 		_die()
 		return
 	_hit_flash = HIT_FLASH_TIME
-	AudioManager.play_sfx(hit_sfx)
+	if hit_sfx != null:
+		AudioManager.play_sfx(hit_sfx)
+	else:
+		AudioManager.play_sfx_path("res://assets/audio/sfx/sfx_hit.wav")
 
 func _die() -> void:
 	if _dead:
@@ -265,7 +268,10 @@ func _die() -> void:
 		else:
 			GameManager.add_score(data.score_value)
 	_spawn_drop()
-	AudioManager.play_sfx(death_sfx)
+	if death_sfx != null:
+		AudioManager.play_sfx(death_sfx)
+	else:
+		AudioManager.play_sfx_path("res://assets/audio/sfx/sfx_die_small.wav")
 	var parent_node := get_parent()
 	if parent_node != null:
 		var exp_node = preload("res://effects/explosion.gd").new()

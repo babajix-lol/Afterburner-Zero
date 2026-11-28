@@ -4,6 +4,7 @@ class_name HUD
 @onready var _score_label: Label = $MarginContainer/TopBar/ScoreLabel
 @onready var _lives_container: HBoxContainer = $MarginContainer/TopBar/LivesContainer
 @onready var _bomb_label: Label = $MarginContainer/TopBar/BombLabel
+@onready var _ult_label: Label = $MarginContainer/TopBar/UltLabel
 @onready var _weapon_label: Label = $MarginContainer/TopBar/WeaponLabel
 @onready var _combo_label: Label = $MarginContainer/TopBar/ComboLabel
 @onready var _wave_label: Label = $MarginContainer/BottomBar/WaveLabel
@@ -23,6 +24,7 @@ func _ready() -> void:
 	EventBus.score_changed.connect(_on_score_changed)
 	EventBus.lives_changed.connect(_on_lives_changed)
 	EventBus.bomb_changed.connect(_on_bomb_changed)
+	EventBus.ultimate_changed.connect(_on_ultimate_changed)
 	EventBus.weapon_changed.connect(_on_weapon_changed)
 	EventBus.wave_started.connect(_on_wave_started)
 	EventBus.boss_started.connect(_on_boss_started)
@@ -36,6 +38,7 @@ func _ready() -> void:
 	_on_lives_changed(GameManager.lives)
 	_on_score_changed(GameManager.score)
 	_on_bomb_changed(GameManager.bombs)
+	_on_ultimate_changed(GameManager.ultimate_charges)
 	_on_weapon_changed(GameManager.weapon)
 
 func _on_score_changed(value: int) -> void:
@@ -53,6 +56,12 @@ func _on_lives_changed(value: int) -> void:
 
 func _on_bomb_changed(value: int) -> void:
 	_bomb_label.text = "BOMB: %d" % value
+
+func _on_ultimate_changed(value: int) -> void:
+	if _ult_label == null:
+		return
+	_ult_label.visible = GameManager.is_ultimate_allowed_level()
+	_ult_label.text = "ULT [X]: %d" % value
 
 func _on_weapon_changed(weapon_data: WeaponData) -> void:
 	if weapon_data == null:

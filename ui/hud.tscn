@@ -62,6 +62,15 @@ mouse_filter = 2
 layout_mode = 2
 text = "BOMB: 1"
 
+[node name="SpacerUlt" type="Control" parent="MarginContainer/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="UltLabel" type="Label" parent="MarginContainer/TopBar"]
+layout_mode = 2
+text = "ULT [X]: 0"
+
 [node name="Spacer3" type="Control" parent="MarginContainer/TopBar"]
 layout_mode = 2
 size_flags_horizontal = 3

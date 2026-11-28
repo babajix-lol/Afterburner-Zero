@@ -7,6 +7,7 @@ const ROLL_DURATION := 0.3
 const ROLL_COOLDOWN := 1.0
 const HIT_INVULNERABILITY := 1.0
 const SHIELD_DURATION := 5.0
+const ULTIMATE_DURATION := 2.0
 const PLAYFIELD_MARGIN := 10.0
 
 const ENGINE_TEXTURES: Array[Texture2D] = [
@@ -19,18 +20,23 @@ const ENGINE_FPS := 14.0
 @export var roll_sfx: AudioStream
 @export var hit_sfx: AudioStream
 @export var shield_sfx: AudioStream
+@export var ultimate_sfx: AudioStream
 
 @onready var _ship: Sprite2D = $Ship
 @onready var _engine_flame: AnimatedSprite2D = $EngineFlame
 @onready var _shield_ring: ShieldRing = $ShieldRing
 @onready var _weapon: PlayerWeapon = $Weapon
 @onready var _hurtbox: Area2D = $Hurtbox
+@onready var _ultimate_laser: UltimateLaser = $UltimateLaser
+@onready var _left_pod: SideMissilePod = $LeftMissilePod
+@onready var _right_pod: SideMissilePod = $RightMissilePod
 
 var _level: BaseLevel = null
 
 var _invuln_timer := 0.0
 var _shield_timer := 0.0
 var _shield_span := SHIELD_DURATION
+var _ultimate_timer := 0.0
 var _roll_timer := 0.0
 var _roll_cooldown := 0.0
 var _roll_direction := Vector2.DOWN
@@ -42,6 +48,7 @@ func _ready() -> void:
 	_level = get_tree().get_first_node_in_group(&"level") as BaseLevel
 	_build_engine_flame()
 	_shield_ring.set_energy(0.0)
+	_set_ultimate_active(false)
 	_hurtbox.area_entered.connect(_on_hurtbox_area_entered)
 	_hurtbox.body_entered.connect(_on_hurtbox_body_entered)
 	EventBus.player_died.connect(_on_player_died)
@@ -67,6 +74,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		start_roll()
 	if event.is_action_pressed(&"bomb"):
 		_use_bomb()
+	if event.is_action_pressed(&"activate_ultimate"):
+		_activate_ultimate()
 
 func start_roll() -> void:
 	if _is_dead or _is_rolling or _roll_cooldown > 0.0:
@@ -116,9 +125,33 @@ func grant_shield(duration := SHIELD_DURATION) -> void:
 	AudioManager.play_sfx(shield_sfx)
 	EventBus.shield_changed.emit(_shield_timer)
 
+func _activate_ultimate() -> void:
+	if _is_dead or _ultimate_timer > 0.0:
+		return
+	if not GameManager.is_ultimate_allowed_level():
+		return
+	if not GameManager.use_ultimate_charge():
+		return
+	_ultimate_timer = ULTIMATE_DURATION
+	_set_ultimate_active(true)
+	AudioManager.play_sfx(ultimate_sfx)
+	EventBus.ultimate_activated.emit(ULTIMATE_DURATION)
+
+func _set_ultimate_active(active: bool) -> void:
+	if _ultimate_laser != null:
+		_ultimate_laser.set_active(active)
+	if _left_pod != null:
+		_left_pod.set_active(active)
+	if _right_pod != null:
+		_right_pod.set_active(active)
+
 func _tick_timers(delta: float) -> void:
 	_invuln_timer = maxf(_invuln_timer - delta, 0.0)
 	_roll_cooldown = maxf(_roll_cooldown - delta, 0.0)
+	if _ultimate_timer > 0.0:
+		_ultimate_timer = maxf(_ultimate_timer - delta, 0.0)
+		if _ultimate_timer <= 0.0:
+			_set_ultimate_active(false)
 	if _shield_timer <= 0.0:
 		return
 	var previous := _shield_timer

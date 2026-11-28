@@ -38,6 +38,7 @@ func _fire() -> void:
 	var spread := 0.0
 	var damage := default_damage
 	var homing := false
+	var shot_path := "res://assets/audio/sfx/sfx_shoot_cannon.wav"
 	if data != null:
 		if data.bullet_scene != null:
 			bullet_scene = data.bullet_scene
@@ -45,11 +46,21 @@ func _fire() -> void:
 		spread = data.spread_angle
 		damage = data.damage
 		homing = data.is_homing
+		match data.display_name:
+			"Laser":
+				shot_path = "res://assets/audio/sfx/sfx_shoot_laser.wav"
+			"Spread":
+				shot_path = "res://assets/audio/sfx/sfx_shoot_spread.wav"
+			"Homing", "Missile":
+				shot_path = "res://assets/audio/sfx/sfx_shoot_missile.wav"
 	if bullet_scene == null:
 		return
 	for angle in _spread_angles(count, spread):
 		_spawn(bullet_scene, angle, damage, homing)
-	AudioManager.play_sfx(shot_sfx)
+	if shot_sfx != null:
+		AudioManager.play_sfx(shot_sfx)
+	else:
+		AudioManager.play_sfx_path(shot_path)
 
 func _spread_angles(count: int, spread_degrees: float) -> Array[float]:
 	var angles: Array[float] = []

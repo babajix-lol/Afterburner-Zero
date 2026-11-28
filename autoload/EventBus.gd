@@ -3,6 +3,8 @@ extends Node
 signal score_changed(value: int)
 signal lives_changed(value: int)
 signal bomb_changed(value: int)
+signal ultimate_changed(charges: int)
+signal ultimate_activated(duration: float)
 signal weapon_changed(weapon_data: WeaponData)
 signal shield_changed(value: float)
 signal wave_started(index: int, total: int)

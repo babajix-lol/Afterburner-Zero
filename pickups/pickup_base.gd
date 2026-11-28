@@ -12,6 +12,7 @@ const BOB_SPEED := 5.0
 @export var heal_amount := 1
 @export var shield_duration := 6.0
 @export var bomb_amount := 1
+@export var ultimate_amount := 1
 @export var weapon_data: WeaponData
 @export var pickup_sfx: AudioStream
 
@@ -21,6 +22,9 @@ var _age := 0.0
 var _taken := false
 
 func _ready() -> void:
+	if kind == &"ultimate" and not GameManager.is_ultimate_allowed_level():
+		queue_free()
+		return
 	add_to_group(GROUP)
 	body_entered.connect(_on_body_entered)
 	area_entered.connect(_on_area_entered)
@@ -69,6 +73,8 @@ func _apply(player: Node2D) -> bool:
 			player.grant_shield(shield_duration)
 		&"bomb":
 			GameManager.add_bomb(bomb_amount)
+		&"ultimate":
+			return GameManager.add_ultimate_charge(ultimate_amount)
 		&"weapon":
 			var chosen := weapon_data
 			if chosen == null:

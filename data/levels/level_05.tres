@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=11 format=3]
+[gd_resource type="Resource" script_class="LevelData" load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://resources/LevelData.gd" id="1_level_data"]
 [ext_resource type="PackedScene" path="res://bosses/boss_dreadnought.tscn" id="2_boss"]
@@ -10,6 +10,7 @@
 [ext_resource type="Resource" path="res://data/levels/wave_05_06.tres" id="8_wave6"]
 [ext_resource type="Resource" path="res://data/levels/wave_05_07.tres" id="9_wave7"]
 [ext_resource type="AudioStream" path="res://assets/audio/bgm/bgm_level_05.wav" id="10_bgm"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/black_site.svg" id="11_background"]
 
 [resource]
 script = ExtResource("1_level_data")
@@ -18,6 +19,7 @@ level_name = "Zero Hour: Black Site"
 briefing_lines = Array[String](["Tidak ada jalan pulang.", "Hancurkan Warlord Dreadnought, akhiri semuanya."])
 victory_lines = Array[String](["Black Site runtuh.", "Sirene berhenti untuk pertama kalinya dalam semalam.", "— AFTERBURNER ZERO. MISSION COMPLETE."])
 background_music = ExtResource("10_bgm")
+background_texture = ExtResource("11_background")
 scroll_speed = 70.0
 boss_scene = ExtResource("2_boss")
 waves = Array[WaveData]([ExtResource("3_wave1"), ExtResource("4_wave2"), ExtResource("5_wave3"), ExtResource("6_wave4"), ExtResource("7_wave5"), ExtResource("8_wave6"), ExtResource("9_wave7")])
