@@ -15,9 +15,12 @@ const VICTORY_BGM_PATH := "res://assets/audio/bgm/bgm_victory.wav"
 @onready var _entities: Node2D = $Entities
 @onready var _hud: CanvasLayer = $HUD
 @onready var _backdrop: Sprite2D = $Background/Backdrop
+@onready var _midground: Sprite2D = $Background/Midground
+@onready var _sky: ColorRect = $Background/Sky
 
 var _scrolling := true
 var _scroll_speed := 60.0
+var _mid_offset := 0.0
 var _dialog: DialogBox = null
 var _pause_menu: PauseMenu = null
 var _completing := false
@@ -28,8 +31,6 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	_entities.add_to_group(&"entities")
-	if _backdrop != null:
-		_backdrop.modulate = environment_tint
 	var data := GameManager.level_data
 	if data == null:
 		var scene_name := name
@@ -42,6 +43,21 @@ func _ready() -> void:
 		if fallback != null:
 			GameManager.begin_level(fallback.level_index, fallback)
 			data = fallback
+	# Apply sky colour
+	if _sky != null:
+		_sky.color = environment_tint if data == null else data.sky_color
+	# Apply background texture & tint
+	if _backdrop != null:
+		_backdrop.modulate = environment_tint
+		if data != null and data.background_texture != null:
+			_backdrop.texture = data.background_texture
+	# Apply midground texture & parallax
+	if _midground != null:
+		if data != null and data.midground_texture != null:
+			_midground.texture = data.midground_texture
+			_midground.modulate = Color(environment_tint.r, environment_tint.g, environment_tint.b, 0.72)
+		else:
+			_midground.modulate = Color(1, 1, 1, 0)  # invisible if no texture
 	if data != null:
 		_scroll_speed = data.scroll_speed
 		if data.background_music != null:
@@ -60,6 +76,13 @@ func _physics_process(delta: float) -> void:
 		var step := Vector2(0.0, -_scroll_speed * delta)
 		_camera.position += step
 		camera_delta = step
+		# Parallax midground scrolls at 55% the speed of the camera
+		if _midground != null and _midground.modulate.a > 0.0:
+			_mid_offset += step.y * 0.55
+			# Wrap so the tile never drifts out of the 8000px region
+			if _mid_offset < -8000.0:
+				_mid_offset += 8000.0
+			_midground.position.y = -4000.0 + _mid_offset
 	else:
 		camera_delta = Vector2.ZERO
 

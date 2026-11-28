@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=8 format=3]
+[gd_resource type="Resource" script_class="LevelData" load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://resources/LevelData.gd" id="1_level_data"]
 [ext_resource type="Resource" path="res://data/levels/wave_01_01.tres" id="2_wave1"]
@@ -7,6 +7,8 @@
 [ext_resource type="Resource" path="res://data/levels/wave_01_04.tres" id="5_wave4"]
 [ext_resource type="Resource" path="res://data/levels/wave_01_05.tres" id="6_wave5"]
 [ext_resource type="AudioStream" path="res://assets/audio/bgm/bgm_level_01.wav" id="7_bgm"]
+[ext_resource type="Texture2D" path="res://assets/tiles/background_1.png" id="8_bg"]
+[ext_resource type="Texture2D" path="res://assets/tiles/Building2_1.png" id="9_mid"]
 
 [resource]
 script = ExtResource("1_level_data")
@@ -15,6 +17,9 @@ level_name = "Highway Breach"
 briefing_lines = Array[String](["Jalan tol sudah dikuasai Iron Talon.", "Bersihkan barikade dan buka jalan ke pusat kota."])
 victory_lines = Array[String](["Sektor satu bersih.", "Mereka tidak akan menyerah cuma karena ini."])
 background_music = ExtResource("7_bgm")
+background_texture = ExtResource("8_bg")
+midground_texture = ExtResource("9_mid")
+sky_color = Color(0.72, 0.84, 1.0, 1.0)
 scroll_speed = 50.0
 waves = Array[WaveData]([ExtResource("2_wave1"), ExtResource("3_wave2"), ExtResource("4_wave3"), ExtResource("5_wave4"), ExtResource("6_wave5")])
 difficulty = {
